@@ -75,7 +75,7 @@ public class DatoValor {
         this.r1         = (getPivotPoint() * 2) - getMinimo();
         this.s1         = (getPivotPoint() * 2) - getMaximo();
         this.r2         = (getPivotPoint() - getS1()) + getR1();
-        this.s1         = (getPivotPoint() - getR1()) + getS1();
+        this.s2         = (getPivotPoint() - getR1()) + getS1();
     }
 
     /**

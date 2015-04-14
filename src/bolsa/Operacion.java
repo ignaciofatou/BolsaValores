@@ -18,6 +18,7 @@ public class Operacion {
     //Atributos
     private String operacion;
     private String nombreValor;
+    private double volumen;
     private double precioApertura;
     private String fechaApertura;
     private String horaApertura;
@@ -31,25 +32,28 @@ public class Operacion {
     private double beneficioNeto;
     
     //Constructor con Fecha de Apertura Automatico y sin Cierre
-    public Operacion(String operacion, String nombreValor, double precioApertura){
+    public Operacion(String operacion, String nombreValor, double volumen, double precioApertura){
         this.operacion      = operacion;
         this.nombreValor    = nombreValor;
+        this.volumen        = volumen;
         this.precioApertura = precioApertura;
         this.fechaApertura  = getFechaActual();
         this.horaApertura   = getHoraActual();
     }
     //Constructor con Fecha de Apertura Manual y sin Cierre
-    public Operacion(String operacion, String nombreValor, double precioApertura, String fechaApertura, String horaApertura){
+    public Operacion(String operacion, String nombreValor, double volumen, double precioApertura, String fechaApertura, String horaApertura){
         this.operacion      = operacion;
         this.nombreValor    = nombreValor;
+        this.volumen        = volumen;
         this.precioApertura = precioApertura;
         this.fechaApertura  = fechaApertura;
         this.horaApertura   = horaApertura;
     }
     //Constructor con Fecha de Cierre Automatico sin Tasas
-    public Operacion(String operacion, String nombreValor, double precioApertura, String fechaApertura, String horaApertura, double precioCierre){
+    public Operacion(String operacion, String nombreValor, double volumen, double precioApertura, String fechaApertura, String horaApertura, double precioCierre){
         this.operacion      = operacion;
         this.nombreValor    = nombreValor;
+        this.volumen        = volumen;
         this.precioApertura = precioApertura;
         this.fechaApertura  = fechaApertura;
         this.horaApertura   = horaApertura;
@@ -58,9 +62,10 @@ public class Operacion {
         this.horaCierre     = getHoraActual();
     }
     //Constructor con Fecha de Cierre Manual sin Tasas
-    public Operacion(String operacion, String nombreValor, double precioApertura, String fechaApertura, String horaApertura, double precioCierre, String fechaCierre, String horaCierre){
+    public Operacion(String operacion, String nombreValor, double volumen, double precioApertura, String fechaApertura, String horaApertura, double precioCierre, String fechaCierre, String horaCierre){
         this.operacion      = operacion;
         this.nombreValor    = nombreValor;
+        this.volumen        = volumen;
         this.precioApertura = precioApertura;
         this.fechaApertura  = fechaApertura;
         this.horaApertura   = horaApertura;
@@ -69,9 +74,10 @@ public class Operacion {
         this.horaCierre     = horaCierre;
     }
     //Constructor con Fecha de Cierre Automatico y Tasas
-    public Operacion(String operacion, String nombreValor, double precioApertura, String fechaApertura, String horaApertura, double precioCierre, double tasas){
+    public Operacion(String operacion, String nombreValor, double volumen, double precioApertura, String fechaApertura, String horaApertura, double precioCierre, double tasas){
         this.operacion      = operacion;
         this.nombreValor    = nombreValor;
+        this.volumen        = volumen;
         this.precioApertura = precioApertura;
         this.fechaApertura  = fechaApertura;
         this.horaApertura   = horaApertura;
@@ -81,9 +87,10 @@ public class Operacion {
         this.tasas          = tasas;
     }
     //Constructor con Fecha de Cierre Manual y Tasas
-    public Operacion(String operacion, String nombreValor, double precioApertura, String fechaApertura, String horaApertura, double precioCierre, String fechaCierre, String horaCierre, double tasas){
+    public Operacion(String operacion, String nombreValor, double volumen, double precioApertura, String fechaApertura, String horaApertura, double precioCierre, String fechaCierre, String horaCierre, double tasas){
         this.operacion      = operacion;
         this.nombreValor    = nombreValor;
+        this.volumen        = volumen;
         this.precioApertura = precioApertura;
         this.fechaApertura  = fechaApertura;
         this.horaApertura   = horaApertura;
