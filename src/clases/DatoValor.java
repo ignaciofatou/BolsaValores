@@ -3,21 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bolsa;
+package clases;
 
 /**
  *
  * @author Ignacio
  */
 public class DatoValor {
+    
     //Atributos Iniciales
+    private String codValor;
     private String fecha;
     private double apertura;
-    private double cierre;
     private double maximo;
     private double minimo;
-    private double variacion;
-    private double porVariacion;
+    private double cierre;
     private long   volumen;
     
     //Atributos Calculados

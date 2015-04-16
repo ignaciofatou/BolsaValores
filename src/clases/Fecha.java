@@ -1,4 +1,4 @@
-package bolsa;
+package clases;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

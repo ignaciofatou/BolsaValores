@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bolsa;
+package clases;
 
 /**
  *
  * @author Ignacio
  */
-public class BaseDeDatos {
+public class Categoria {
     
 }
