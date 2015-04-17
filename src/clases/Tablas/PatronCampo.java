@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.Tablas;
 
 
 /**
@@ -12,10 +12,12 @@ package clases;
  */
 public class PatronCampo {
     
+    //Constantes
     private final String COD_CAMPO = "COD_CAMPO";
     private final String ORDEN     = "ORDEN";
     private final String TIPO_DATO = "TIPO_DATO";
     
+    //Atributos
     private String codValor;
     private int    orden;
     private String tipoDato;

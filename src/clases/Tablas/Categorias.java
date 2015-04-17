@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases;
+package clases.Tablas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,28 +14,29 @@ import java.util.ArrayList;
  *
  * @author Ignacio
  */
-public class PatronDatosEntrada {
-    
+public class Categorias {
     //Constantes
-    private final String QUERY_PATRON_DATOS = "SELECT COD_CAMPO, ORDEN, TIPO_DATO FROM PATRON_DATOS ORDER BY ORDEN ASC";
+    private final String QUERY_CATEGORIAS_DATOS = "SELECT COD_CAT, DESCRIPCION, URL, FORMATOFECHA, COMODIN, EXTENSION FROM CATEGORIAS";
             
     //Atributos
-    private ArrayList<PatronCampo> listaCampos = new ArrayList();
+    private ArrayList<Categoria> categorias = new ArrayList();
 
-    public void recuperarPatronesBD(Connection con){
+    public Categorias(Connection con){
         
         try{
             Statement cmd = con.createStatement();
-            ResultSet rs = cmd.executeQuery(QUERY_PATRON_DATOS);
+            ResultSet rs = cmd.executeQuery(QUERY_CATEGORIAS_DATOS);
             
             //Recorremos todos los Datos de Entrada
             while(rs.next()){
-                //Nuevo Campo de Patron
-                PatronCampo nuevoPatron = new PatronCampo(rs);
+                //Nuevo Campo de Categoria
+                Categoria nuevaCategoria = new Categoria(rs);
                 
                 //Añadimos nuevo campo a la lista
-                getListaCampos().add(nuevoPatron);                
-                System.out.println(nuevoPatron.toString());
+                categorias.add(nuevaCategoria);
+                
+                //Traza
+                System.out.println(nuevaCategoria.toString());
             }            
         }catch(Exception ex){
             System.out.println("Error Recuperando Datos de los Patrones");
@@ -45,7 +46,8 @@ public class PatronDatosEntrada {
     /**
      * @return the listaCampos
      */
-    public ArrayList<PatronCampo> getListaCampos() {
-        return listaCampos;
+    public ArrayList<Categoria> getCategorias() {
+        return categorias;
     }
+   
 }

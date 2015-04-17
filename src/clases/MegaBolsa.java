@@ -5,13 +5,12 @@
  */
 package clases;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Ignacio
- * http://www.megabolsa.com/cierres/150410.txt
+  * http://www.megabolsa.com/cierres/150410.txt
  */
-public class ListaValores {
-    private ArrayList<Valor> valores = new ArrayList();
+public class MegaBolsa {
+    
+    
 }

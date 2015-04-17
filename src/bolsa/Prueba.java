@@ -6,7 +6,9 @@
 package bolsa;
 
 import clases.BaseDeDatos;
-import clases.PatronDatosEntrada;
+import clases.Tablas.Categorias;
+import clases.Tablas.DatosValores;
+import clases.Tablas.PatronesCampos;
 
 /**
  *
@@ -19,8 +21,11 @@ public class Prueba {
      */
     public static void main(String[] args) {
         BaseDeDatos bd = new BaseDeDatos();
-        PatronDatosEntrada patrones = new PatronDatosEntrada();
-        patrones.recuperarPatronesBD(bd.getConexion());
+        PatronesCampos patrones     = new PatronesCampos(bd.getConexion());
+        Categorias     categorias   = new Categorias(bd.getConexion());        
+        DatosValores   datosValores = new DatosValores(bd.getConexion(), "ifc");
+        
+        //Cerramos la Base de Datos
         bd.cerrar();
     }
     
