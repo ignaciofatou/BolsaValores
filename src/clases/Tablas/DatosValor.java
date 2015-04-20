@@ -21,13 +21,14 @@ public class DatosValor {
             
     //Atributos
     private ArrayList<DatoValor> datosValor = new ArrayList();
+    private Valor  valor;
     private String codValor;
-    private Valor valor;//////?????????????????????????????
 
-    public DatosValor(Connection con, String codValor){
+    public DatosValor(Connection con, Valor valor){
         
         //Inicializamos el Atributo Codigo Valor
-        this.codValor = codValor;
+        this.valor    = valor;
+        this.codValor = valor.getCodValor();
         
         try{
             //Ejecutamos la Query Filtando por Codigo de Valor
@@ -68,5 +69,12 @@ public class DatosValor {
      */
     public String getCodValor() {
         return codValor;
+    }
+
+    /**
+     * @return the valor
+     */
+    public Valor getValor() {
+        return valor;
     }
 }

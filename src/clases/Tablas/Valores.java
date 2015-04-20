@@ -39,7 +39,7 @@ public class Valores {
                 System.out.println(nuevoValor.toString());
             }            
         }catch(Exception ex){
-            System.out.println("Error Recuperando Datos de los Valores");
+            System.out.println("Error Recuperando los Valores");
         }
     }
 

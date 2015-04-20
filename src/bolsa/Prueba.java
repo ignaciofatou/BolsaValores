@@ -9,6 +9,7 @@ import clases.BaseDeDatos;
 import clases.Tablas.Categorias;
 import clases.Tablas.DatosValores;
 import clases.Tablas.PatronesCampos;
+import clases.Tablas.Valores;
 
 /**
  *
@@ -23,7 +24,8 @@ public class Prueba {
         BaseDeDatos bd = new BaseDeDatos();
         PatronesCampos patrones     = new PatronesCampos(bd.getConexion());
         Categorias     categorias   = new Categorias(bd.getConexion());        
-        DatosValores   datosValores = new DatosValores(bd.getConexion(), "ifc");
+        DatosValores   datosValores = new DatosValores(bd.getConexion());
+        Valores        valores      = new Valores(bd.getConexion());
         
         //Cerramos la Base de Datos
         bd.cerrar();

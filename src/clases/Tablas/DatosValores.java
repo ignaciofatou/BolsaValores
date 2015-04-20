@@ -18,14 +18,14 @@ public class DatosValores {
             
     //Atributos
     private ArrayList<DatosValor> datosValores = new ArrayList();
-    Valores valores;//??????????????????????????????
+    Valores valores;
 
     public DatosValores(Connection con){
         valores = new Valores(con);
             
         for(Valor valor:valores.getValores()){
             //Nuevo Campo de Datos Valor
-            DatosValor nuevoDatosValor = new DatosValor(con, valor.getCodValor());
+            DatosValor nuevoDatosValor = new DatosValor(con, valor);
             
             //Añadimos nuevo campo a la lista
             datosValores.add(nuevoDatosValor);
