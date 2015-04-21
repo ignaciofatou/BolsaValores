@@ -6,6 +6,8 @@
 package bolsa;
 
 import clases.BaseDeDatos;
+import clases.DatosMegaBolsa.MegaBolsa;
+import clases.Tablas.Categoria;
 import clases.Tablas.Categorias;
 import clases.Tablas.DatosValores;
 import clases.Tablas.PatronesCampos;
@@ -24,8 +26,13 @@ public class Prueba {
         BaseDeDatos bd = new BaseDeDatos();
         PatronesCampos patrones     = new PatronesCampos(bd.getConexion());
         Categorias     categorias   = new Categorias(bd.getConexion());        
-        DatosValores   datosValores = new DatosValores(bd.getConexion());
-        Valores        valores      = new Valores(bd.getConexion());
+        //DatosValores   datosValores = new DatosValores(bd.getConexion());
+        //Valores        valores      = new Valores(bd.getConexion());
+        
+        //PatronesCampos patronesCampos, String direccionWEB, String extensionWEB){
+        Categoria categoria1 = categorias.getCategorias().get(0);
+        MegaBolsa megaBolsa = new MegaBolsa(patrones, categoria1.getUrlDatosFichero(), categoria1.getExtensionFichero());
+        megaBolsa.getDatos("150410");
         
         //Cerramos la Base de Datos
         bd.cerrar();

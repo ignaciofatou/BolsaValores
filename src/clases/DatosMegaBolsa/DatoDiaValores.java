@@ -1,7 +1,7 @@
 /*
  * Lo vamos a Usar para Descargar los Datos de un Solo dia de varios Valores
   */
-package clases;
+package clases.DatosMegaBolsa;
 
 import clases.Tablas.DatoValor;
 import java.util.ArrayList;

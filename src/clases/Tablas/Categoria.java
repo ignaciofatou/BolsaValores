@@ -51,6 +51,48 @@ public class Categoria {
     
     @Override
     public String toString(){
-        return COD_CAT + ": " + this.codCategoria + ", " + DESCRIPCION + ": " + this.descripcion + ", " + URL + ": " + this.urlDatosFichero + ", " + FORMATOFECHA + ": " + this.formFechaFichero + ", " + COMODIN + ": " + this.comodinFichero + ", " + EXTENSION + ": " + this.extensionFichero;
+        return COD_CAT + ": " + this.getCodCategoria() + ", " + DESCRIPCION + ": " + this.getDescripcion() + ", " + URL + ": " + this.getUrlDatosFichero() + ", " + FORMATOFECHA + ": " + this.getFormFechaFichero() + ", " + COMODIN + ": " + this.getComodinFichero() + ", " + EXTENSION + ": " + this.getExtensionFichero();
     }    
+
+    /**
+     * @return the codCategoria
+     */
+    public String getCodCategoria() {
+        return codCategoria;
+    }
+
+    /**
+     * @return the descripcion
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * @return the urlDatosFichero
+     */
+    public String getUrlDatosFichero() {
+        return urlDatosFichero;
+    }
+
+    /**
+     * @return the formFechaFichero
+     */
+    public String getFormFechaFichero() {
+        return formFechaFichero;
+    }
+
+    /**
+     * @return the comodinFichero
+     */
+    public String getComodinFichero() {
+        return comodinFichero;
+    }
+
+    /**
+     * @return the extensionFichero
+     */
+    public String getExtensionFichero() {
+        return extensionFichero;
+    }
 }

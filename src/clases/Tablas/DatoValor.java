@@ -5,8 +5,8 @@
  */
 package clases.Tablas;
 
-import clases.CampoLinea;
-import clases.CamposLinea;
+import clases.DatosMegaBolsa.CampoLinea;
+import clases.DatosMegaBolsa.CamposLinea;
 
 /**
  *
