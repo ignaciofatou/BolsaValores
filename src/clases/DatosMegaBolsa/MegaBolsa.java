@@ -8,7 +8,8 @@ package clases.DatosMegaBolsa;
 import clases.Tablas.DatoValor;
 import clases.Tablas.PatronesCampos;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 /**
  *
@@ -35,21 +36,18 @@ public class MegaBolsa {
         //URL desde la que vamos a Obtener la Informacion
         String direccionInformacion = direccionWEB + fecha + extensionWEB;
         System.out.println("Tratamos de Acceder a: "+direccionInformacion);
-
+        
         //Variables Para leer la URL
-        FileReader r = null;
-        BufferedReader buffer;
+        URL accesoURL;
         String lineaLeida;
 
         try
         {
-            r = new FileReader(direccionInformacion);
-            buffer = new BufferedReader(r);
+            //Accedemos a la URL
+            accesoURL = new URL(direccionInformacion);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(accesoURL.openStream())); 
 
-            //Despreciamos la Primera Linea de Cabecera
-            buffer.readLine();
-
-            //Recorremos el Fichero hasta el Final o hasta el Tope de Rango
+            //Recorremos el Fichero de la URL hasta el Final
             while ((lineaLeida = buffer.readLine()) != null){
                 //Por Cada Linea Creamos un Nuevo Dato Valor
                 datoValor = new DatoValor(patronesCampos, lineaLeida);                
@@ -57,17 +55,12 @@ public class MegaBolsa {
                 //Añadimos el Nuevo Valor al ArrayList
                 datoDiaValores.setNuevoValor(datoValor);
             }
+            //Cerramos el Buffer
+            buffer.close();
             System.out.println("Fin de: "+direccionInformacion);
 
         }catch (Exception e){
             System.out.println("Error al Acceder al Fichero: " + e.getMessage());
-        }finally{
-            try{
-                if (r != null)
-                    r.close();
-            }catch (Exception e2){
-                System.out.println("Error al Cerrar el Fichero: " + e2.getMessage());
-            }
         }
         //Retornamos los Datos de los Valores para ese Dia
         return datoDiaValores;

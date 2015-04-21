@@ -98,7 +98,7 @@ public class DatoValor {
             
             //Recuperamos el Campo especificado en la Posicion del Patron
             int posicion = patronCampo.getOrden();
-            CampoLinea campoLinea = camposLinea.getCamposLinea().get(posicion);
+            CampoLinea campoLinea = camposLinea.getCamposLinea().get(posicion - 1);
             String contenido = campoLinea.getContenido();
             
             switch(patronCampo.getCodValor()){
@@ -121,7 +121,7 @@ public class DatoValor {
                     this.cierre = Double.valueOf(contenido);
                     break;
                 case "VOLUMEN":
-                    this.volumen = Integer.valueOf(contenido);
+                    this.volumen = Long.valueOf(contenido);
                     break;
             }
         }

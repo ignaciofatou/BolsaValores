@@ -27,22 +27,29 @@ public class CamposLinea {
         int    posBusqueda = 0;
         String campo;
         
-        //Recorre la Linea hasta el Final
-        while ((posBusqueda + 1) < linea.length()){
-            //Buscamos el Fin de la Posicion del Campo
-            posBusqueda = linea.indexOf(separador, posIndice);
+        try{        
+            //Recorre la Linea hasta el Final
+            while (posBusqueda != -1){
+                //Buscamos el Fin de la Posicion del Campo
+                posBusqueda = linea.indexOf(separador, posIndice);
 
-            //Recuperamos el Campo de la Linea
-            campo = linea.substring(posIndice, posBusqueda);
+                //Recuperamos el Campo de la Linea
+                if (posBusqueda != -1)
+                    campo = linea.substring(posIndice, posBusqueda);
+                else
+                    campo = linea.substring(posIndice);
 
-            //Creamos un Nuevo Campo
-            campoLinea = new CampoLinea(campo, ++contCampos);
+                //Creamos un Nuevo Campo
+                campoLinea = new CampoLinea(campo, ++contCampos);
 
-            //Incluimos el Nuevo Campo en el ArrayList
-            camposLinea.add(campoLinea);
-            
-            //Actualizamos la Posicion del Indice
-            posIndice = posBusqueda;
+                //Incluimos el Nuevo Campo en el ArrayList
+                camposLinea.add(campoLinea);
+
+                //Actualizamos la Posicion del Indice
+                posIndice = posBusqueda + 1;
+            }
+        }catch(Exception ex){
+            System.out.println("Error al recorrer la Linea");
         }
     }
 

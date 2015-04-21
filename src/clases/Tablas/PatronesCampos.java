@@ -18,7 +18,7 @@ public class PatronesCampos {
     
     //Constantes
     private final String QUERY_PATRONES_DATOS = "SELECT COD_CAMPO, ORDEN, TIPO_DATO FROM PATRON_DATOS ORDER BY ORDEN ASC";
-    private final String SEPARADOR            = "	";
+    private final String SEPARADOR            = ",";
     
     //Atributos
     private ArrayList<PatronCampo> patronesCampo = new ArrayList();
