@@ -5,6 +5,9 @@
  */
 package clases.Tablas;
 
+import clases.CampoLinea;
+import clases.CamposLinea;
+
 /**
  *
  * @author Ignacio
@@ -41,10 +44,10 @@ public class DatoValor {
         try{
             this.codValor = rs.getString(COD_VALOR);
             this.fecha    = rs.getString(FECHA);
-            this.apertura = rs.getDouble(APERTURA);
-            this.cierre   = rs.getDouble(MAXIMO);
-            this.maximo   = rs.getDouble(MINIMO);
-            this.minimo   = rs.getDouble(CIERRE);
+            this.apertura = rs.getDouble(APERTURA);            
+            this.maximo   = rs.getDouble(MAXIMO);
+            this.minimo   = rs.getDouble(MINIMO);
+            this.cierre   = rs.getDouble(CIERRE);
             this.volumen  = rs.getLong(VOLUMEN);
             
             //Calculamos el Resto de Valores
@@ -58,10 +61,10 @@ public class DatoValor {
     public DatoValor(String codValor, String fecha, double apertura, double maximo, double minimo, double cierre, long volumen){
         this.codValor = codValor;
         this.fecha    = fecha;
-        this.apertura = apertura;
-        this.cierre   = cierre;
+        this.apertura = apertura;        
         this.maximo   = maximo;
         this.minimo   = minimo;
+        this.cierre   = cierre;
         this.volumen  = volumen;
         
         //Calculamos el Resto de Valores
@@ -72,10 +75,10 @@ public class DatoValor {
     public DatoValor(String codValor, String fecha, double apertura, double maximo, double minimo, double cierre, long volumen, double pivotPoint, double r1, double s1, double r2, double s2){
         this.codValor   = codValor;
         this.fecha      = fecha;
-        this.apertura   = apertura;
-        this.cierre     = cierre;
+        this.apertura   = apertura;        
         this.maximo     = maximo;
         this.minimo     = minimo;
+        this.cierre     = cierre;
         this.volumen    = volumen;
         this.pivotPoint = pivotPoint;
         this.r1         = r1;
@@ -83,6 +86,53 @@ public class DatoValor {
         this.r2         = r2;
         this.s2         = s2;
     }
+    
+    //Construye a Partir de una Linea y del Patron
+    public DatoValor(PatronesCampos patronesCampos, String linea)
+    {
+        //A partir de la Linea guardamos los Datos en un ArrayList de Campos
+        CamposLinea camposLinea = new CamposLinea(linea, patronesCampos.getSeparador());
+
+        //Recorremos el ArrayList de Patrones
+        for(PatronCampo patronCampo:patronesCampos.getPatronesCampos()){
+            
+            //Recuperamos el Campo especificado en la Posicion del Patron
+            int posicion = patronCampo.getOrden();
+            CampoLinea campoLinea = camposLinea.getCamposLinea().get(posicion);
+            String contenido = campoLinea.getContenido();
+            
+            switch(patronCampo.getCodValor()){
+                case "COD_VALOR":
+                    this.codValor = contenido;
+                    break;
+                case "FECHA":
+                    this.fecha = contenido;
+                    break;
+                case "APERTURA":
+                    this.apertura = Double.valueOf(contenido);
+                    break;
+                case "MAXIMO":
+                    this.maximo = Double.valueOf(contenido);
+                    break;
+                case "MINIMO":
+                    this.minimo = Double.valueOf(contenido);
+                    break;
+                case "CIERRE":
+                    this.cierre = Double.valueOf(contenido);
+                    break;
+                case "VOLUMEN":
+                    this.volumen = Integer.valueOf(contenido);
+                    break;
+            }
+        }
+    }
+    
+    private double Redondear(Double PE_Numero, int Decimales)
+    {
+        double Factor = Math.pow(10, Decimales);
+        return (Math.round(PE_Numero * Factor) / Factor);
+    }
+    
     
     //Calcula el Resto de Campos
     private void calculaRestoValores()

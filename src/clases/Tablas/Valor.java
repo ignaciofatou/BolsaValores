@@ -5,10 +5,6 @@
  */
 package clases.Tablas;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 /**
  *
  * @author Ignacio
@@ -20,7 +16,6 @@ public class Valor {
     private final String COD_CAT     = "COD_CAT";
     private final String DECIMALES   = "DECIMALES";
     private final String DESCRIPCION = "DESCRIPCION";
-    private final String QUERY_VALOR = "SELECT COD_VALOR, COD_CAT, DECIMALES, DESCRIPCION FROM VALORES WHERE COD_VALOR = ?";
 
     //Atributos
     private String codValor;
