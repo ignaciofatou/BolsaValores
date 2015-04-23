@@ -3,13 +3,13 @@ package clases;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Fecha {
     
-    private static final String YYYYMMDD = "YMd";
-    private static final String HH24MISS = "Hmmss";
-    private static final String YYMMDD   = "yyMMdd";
+    //public static final String YYYYMMDD = "YMd";
+    public static final String YYYYMMDD = "yyyyMMdd";
+    public static final String HH24MISS = "Hmmss";
+    public static final String YYMMDD   = "yyMMdd";    
     
     //Retorna la Fecha y Hora Actual YYYYMMDD_HH24MISS -> 2015320_215625
     public static String getFechaHora(){
@@ -43,10 +43,10 @@ public class Fecha {
         formatoFechaPersonal = new SimpleDateFormat(formato);
         return formatoFechaPersonal.format(cal.getTime());
     }
-    //Retorna la Fecha de String a Date
-    public static Date getFechaDate(String strFecha){
+    //Retorna la Fecha de String a Date (java.util.Date)
+    public static java.util.Date getFechaDate(String strFecha){
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat(YYMMDD);
-        Date fecha = null;
+        java.util.Date fecha = null;
 
         try {
             //Realizamos la Conversion
@@ -58,4 +58,23 @@ public class Fecha {
         //Retornamos
         return fecha;
     }
+    //Retorna la Fecha de String a Date (java.sql.Date)
+    public static java.sql.Date getFechaSqlDate(String strFecha, String strFormato){
+        System.out.println("Fecha: " + strFecha + ", Formato: " + strFormato);
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat(strFormato);
+        java.sql.Date sqlDate = null;
+
+        try {
+            //Realizamos la Conversion a Milisegundos
+            long fecha = formatoDelTexto.parse(strFecha).getTime();
+            //Convertimos Milisegundos a Fecha
+            sqlDate = new java.sql.Date(fecha);
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        //Retornamos
+        return sqlDate;
+    }
+    
 }

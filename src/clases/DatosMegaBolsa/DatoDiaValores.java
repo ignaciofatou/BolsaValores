@@ -37,7 +37,10 @@ public class DatoDiaValores {
         return fecha;
     }    
     
-    public void insertaDatoValoresBBDD(){
-        
+    //Recorremos todos los Datos de los Valores y los Insertamos en la BBDD
+    public void insertaDatoValoresBBDD(java.sql.Connection con){
+        for (DatoValor datoValor:datoDiaValores){
+            datoValor.insertaDatoValorBBDD(con);
+        }
     }
 }

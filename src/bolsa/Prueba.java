@@ -35,7 +35,7 @@ public class Prueba {
         System.out.println("Fecha: " + Fecha.getFechaHora("yyMMdd"));
         
         
-        //megaBolsa.getDatos("150410");
+        megaBolsa.setDatosToBBDD(bd.getConexion(), "150410");
         
         //Cerramos la Base de Datos
         bd.cerrar();

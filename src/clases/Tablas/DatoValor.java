@@ -10,7 +10,7 @@ import clases.DatosMegaBolsa.CamposLinea;
 import clases.Fecha;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.Date;
+import java.sql.ResultSet;
 
 /**
  *
@@ -28,8 +28,9 @@ public class DatoValor {
     private final String VOLUMEN   = "VOLUMEN";
     
     //Constante para SQL
-    private final String QUERY_INSERT_DATOS = "INSERT INTO DATOS_VALORES (COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private final String QUERY_SELECT_DATOS = "SELECT COUNT(1) FROM DATOS_VALORES WHERE COD_VALOR = ? AND FECHA = ?";
+    private final String QUERY_INSERT_DATOS   = "INSERT INTO DATOS_VALORES (COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final String QUERY_SELECT_DATOS   = "SELECT COUNT(1) FROM DATOS_VALORES WHERE COD_VALOR = ? AND FECHA = ?";
+    private final String QUERY_SELECT_VALORES = "SELECT COUNT(1) FROM VALORES WHERE COD_VALOR = ?";
     
     //Atributos Iniciales
     private String codValor;
@@ -135,28 +136,84 @@ public class DatoValor {
         }
     }
     
+    
+    
     public void insertaDatoValorBBDD(Connection con){
+        
+        //Si el Dato es Valido para Insertar
+        if (isDatoValido(con)){
+            try{
+                PreparedStatement cmd = con.prepareStatement(QUERY_INSERT_DATOS);
+                cmd.setString(1, this.codValor);
+                cmd.setDate(2, Fecha.getFechaSqlDate(fecha, Fecha.YYYYMMDD));
+                cmd.setDouble(3, this.apertura);
+                cmd.setDouble(4, this.maximo);
+                cmd.setDouble(5, this.minimo);
+                cmd.setDouble(6, this.cierre);
+                cmd.setLong(7, this.volumen);
+                cmd.executeUpdate();
+
+            }catch(Exception ex){
+                System.out.println("Error al Insertar el Valor: " + this.codValor + " en la Tabla de DATOS_VALORES");
+                ex.printStackTrace();
+            }
+        }
+    }
+    private boolean isDatoValido(Connection con){
+        //Si el Valor Existe en la Tabla VALORES
+        if (isValores(con)){
+            //Comprueba que el Codigo de Valor Exista en la Tabla VALORES
+            if (notIsInDatosValores(con))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+    //Comprueba que el Codigo de Valor Exista en la Tabla VALORES
+    private boolean isValores(Connection con){        
         try{
-            PreparedStatement cmd = con.prepareStatement(QUERY_INSERT_DATOS);
+            PreparedStatement cmd = con.prepareStatement(QUERY_SELECT_VALORES);
             cmd.setString(1, this.codValor);
-            cmd.setDate(1, Fecha.getFechaDate(this.fecha));
-            cmd.setDouble(3, this.apertura);
-            cmd.setDouble(4, this.maximo);
-            cmd.setDouble(5, this.minimo);
-            cmd.setDouble(6, this.cierre);
-            cmd.setLong(7, this.volumen);
-            cmd.executeUpdate();
+            ResultSet rs = cmd.executeQuery();
+            
+            if (rs.next()){
+                if (rs.getInt(1) == 1)
+                    return true;
+                else
+                    return false;
+            }else{
+                return false;
+            }
 
         }catch(Exception ex){
-            System.out.println("Error Recuperando Datos de los Patrones");
+            return false;
         }
     }
     
-    public Date getFecha(String fecha){
-        Date auxFecha = new Date();
-        
-        return auxFecha;
+    //Comprueba que el Dato no Exista ya en la Tabla DATOS_VALORES
+    private boolean notIsInDatosValores(Connection con){
+        try{
+            PreparedStatement cmd = con.prepareStatement(QUERY_SELECT_DATOS);
+            cmd.setString(1, this.codValor);
+            cmd.setDate(2, Fecha.getFechaSqlDate(fecha, Fecha.YYYYMMDD));
+            ResultSet rs = cmd.executeQuery();
+            
+            if (rs.next()){
+                if (rs.getInt(1) == 0)
+                    return true;
+                else
+                    return false;
+            }else{
+                return false;
+            }
+
+        }catch(Exception ex){
+            return false;
+        }
     }
+    
     
     private double Redondear(Double PE_Numero, int Decimales)
     {

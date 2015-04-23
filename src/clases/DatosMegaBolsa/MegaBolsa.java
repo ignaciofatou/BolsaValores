@@ -27,8 +27,8 @@ public class MegaBolsa {
         this.direccionWEB   = direccionWEB;
         this.extensionWEB   = extensionWEB;
     }
-    
-    public DatoDiaValores getDatos(String fecha){
+    //Recupera los Datos de la Web megabolsa.com y los Inserta en la Base de Datos
+    public void setDatosToBBDD(java.sql.Connection con, String fecha){
         //Retorna los Datos de los Valores Para un Dia
         DatoDiaValores datoDiaValores = new DatoDiaValores();
         DatoValor      datoValor;
@@ -52,7 +52,7 @@ public class MegaBolsa {
                 //Por Cada Linea Creamos un Nuevo Dato Valor
                 datoValor = new DatoValor(patronesCampos, lineaLeida);                
                 
-                //Añadimos el Nuevo Valor al ArrayList
+                //Añadimos el Nuevo Dato del Valor al ArrayList
                 datoDiaValores.setNuevoValor(datoValor);
             }
             //Cerramos el Buffer
@@ -62,7 +62,7 @@ public class MegaBolsa {
         }catch (Exception e){
             System.out.println("Error al Acceder al Fichero: " + e.getMessage());
         }
-        //Retornamos los Datos de los Valores para ese Dia
-        return datoDiaValores;
+        //Insertamos los Datos de los Valores en BBDD
+        datoDiaValores.insertaDatoValoresBBDD(con);
     }
 }
