@@ -7,6 +7,10 @@ package clases.Tablas;
 
 import clases.DatosMegaBolsa.CampoLinea;
 import clases.DatosMegaBolsa.CamposLinea;
+import clases.Fecha;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.Date;
 
 /**
  *
@@ -22,6 +26,10 @@ public class DatoValor {
     private final String MINIMO    = "MINIMO";
     private final String CIERRE    = "CIERRE";
     private final String VOLUMEN   = "VOLUMEN";
+    
+    //Constante para SQL
+    private final String QUERY_INSERT_DATOS = "INSERT INTO DATOS_VALORES (COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final String QUERY_SELECT_DATOS = "SELECT COUNT(1) FROM DATOS_VALORES WHERE COD_VALOR = ? AND FECHA = ?";
     
     //Atributos Iniciales
     private String codValor;
@@ -125,6 +133,29 @@ public class DatoValor {
                     break;
             }
         }
+    }
+    
+    public void insertaDatoValorBBDD(Connection con){
+        try{
+            PreparedStatement cmd = con.prepareStatement(QUERY_INSERT_DATOS);
+            cmd.setString(1, this.codValor);
+            cmd.setDate(1, Fecha.getFechaDate(this.fecha));
+            cmd.setDouble(3, this.apertura);
+            cmd.setDouble(4, this.maximo);
+            cmd.setDouble(5, this.minimo);
+            cmd.setDouble(6, this.cierre);
+            cmd.setLong(7, this.volumen);
+            cmd.executeUpdate();
+
+        }catch(Exception ex){
+            System.out.println("Error Recuperando Datos de los Patrones");
+        }
+    }
+    
+    public Date getFecha(String fecha){
+        Date auxFecha = new Date();
+        
+        return auxFecha;
     }
     
     private double Redondear(Double PE_Numero, int Decimales)

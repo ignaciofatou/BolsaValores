@@ -36,4 +36,8 @@ public class DatoDiaValores {
     public String getFecha() {
         return fecha;
     }    
+    
+    public void insertaDatoValoresBBDD(){
+        
+    }
 }

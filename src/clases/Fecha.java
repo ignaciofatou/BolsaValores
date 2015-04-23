@@ -1,12 +1,15 @@
 package clases;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Fecha {
     
     private static final String YYYYMMDD = "YMd";
     private static final String HH24MISS = "Hmmss";
+    private static final String YYMMDD   = "yyMMdd";
     
     //Retorna la Fecha y Hora Actual YYYYMMDD_HH24MISS -> 2015320_215625
     public static String getFechaHora(){
@@ -39,5 +42,20 @@ public class Fecha {
         SimpleDateFormat formatoFechaPersonal;
         formatoFechaPersonal = new SimpleDateFormat(formato);
         return formatoFechaPersonal.format(cal.getTime());
+    }
+    //Retorna la Fecha de String a Date
+    public static Date getFechaDate(String strFecha){
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat(YYMMDD);
+        Date fecha = null;
+
+        try {
+            //Realizamos la Conversion
+            fecha = formatoDelTexto.parse(strFecha);
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        //Retornamos
+        return fecha;
     }
 }

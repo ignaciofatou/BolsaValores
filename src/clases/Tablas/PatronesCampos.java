@@ -28,7 +28,7 @@ public class PatronesCampos {
         try{
             Statement cmd = con.createStatement();
             ResultSet rs = cmd.executeQuery(QUERY_PATRONES_DATOS);
-            
+
             //Recorremos todos los Datos de Entrada
             while(rs.next()){
                 //Nuevo Campo de Patron

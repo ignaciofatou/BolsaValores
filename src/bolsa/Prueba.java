@@ -7,11 +7,10 @@ package bolsa;
 
 import clases.BaseDeDatos;
 import clases.DatosMegaBolsa.MegaBolsa;
+import clases.Fecha;
 import clases.Tablas.Categoria;
 import clases.Tablas.Categorias;
-import clases.Tablas.DatosValores;
 import clases.Tablas.PatronesCampos;
-import clases.Tablas.Valores;
 
 /**
  *
@@ -32,7 +31,11 @@ public class Prueba {
         //PatronesCampos patronesCampos, String direccionWEB, String extensionWEB){
         Categoria categoria1 = categorias.getCategorias().get(0);
         MegaBolsa megaBolsa = new MegaBolsa(patrones, categoria1.getUrlDatosFichero(), categoria1.getExtensionFichero());
-        megaBolsa.getDatos("150410");
+        
+        System.out.println("Fecha: " + Fecha.getFechaHora("yyMMdd"));
+        
+        
+        //megaBolsa.getDatos("150410");
         
         //Cerramos la Base de Datos
         bd.cerrar();
