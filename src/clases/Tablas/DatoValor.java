@@ -163,10 +163,7 @@ public class DatoValor {
         //Si el Valor Existe en la Tabla VALORES
         if (isValores(con)){
             //Comprueba que el Codigo de Valor Exista en la Tabla VALORES
-            if (notIsInDatosValores(con))
-                return true;
-            else
-                return false;
+            return (notIsInDatosValores(con));
         }
         else
             return false;
