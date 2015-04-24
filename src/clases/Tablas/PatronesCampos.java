@@ -38,7 +38,7 @@ public class PatronesCampos {
                 patronesCampo.add(nuevoPatron);
 
                 //Traza
-                System.out.println(nuevoPatron.toString());
+                //System.out.println(nuevoPatron.toString());
             }            
         }catch(Exception ex){
             System.out.println("Error Recuperando Datos de los Patrones");

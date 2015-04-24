@@ -3,6 +3,7 @@ package clases;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Fecha {
     
@@ -44,9 +45,9 @@ public class Fecha {
         return formatoFechaPersonal.format(cal.getTime());
     }
     //Retorna la Fecha de String a Date (java.util.Date)
-    public static java.util.Date getFechaDate(String strFecha){
+    public static Date getFechaDate(String strFecha){
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat(YYMMDD);
-        java.util.Date fecha = null;
+        Date fecha = null;
 
         try {
             //Realizamos la Conversion
@@ -59,9 +60,9 @@ public class Fecha {
         return fecha;
     }
     //Retorna la Fecha de String a Date (java.util.Date)
-    public static java.util.Date getFechaDate(String strFecha, String strFormato){
+    public static Date getFechaDate(String strFecha, String strFormato){
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat(strFormato);
-        java.util.Date fecha = null;
+        Date fecha = null;
 
         try {
             //Realizamos la Conversion
@@ -90,6 +91,24 @@ public class Fecha {
         }
         //Retornamos
         return sqlDate;
+    }
+    public static Date sumarRestarDiasFecha(Date fecha, int dias) {
+        //Declaramos Objeto de tipo Calendar
+        Calendar calendar = Calendar.getInstance();
+
+        // Configuramos la fecha que se recibe
+        calendar.setTime(fecha);
+
+        // numero de días a añadir, o restar en caso de días<0
+        calendar.add(Calendar.DAY_OF_YEAR, dias);
+
+        // Devuelve el objeto Date con los nuevos días añadidos
+        return calendar.getTime();
+    }
+    
+    public static String getStrFecha(Date fecha, String formato) {
+        SimpleDateFormat frmtFecha = new SimpleDateFormat(formato);
+        return frmtFecha.format(fecha);
     }
     
 }

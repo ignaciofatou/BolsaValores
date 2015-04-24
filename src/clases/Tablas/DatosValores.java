@@ -27,7 +27,9 @@ public class DatosValores {
             
             //Añadimos nuevo campo a la lista
             datosValores.add(nuevoDatosValor);
-            System.out.println(nuevoDatosValor.toString());
+            
+            //Traza
+            //System.out.println(nuevoDatosValor.toString());
         }
     }
 

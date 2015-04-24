@@ -36,7 +36,7 @@ public class Categorias {
                 categorias.add(nuevaCategoria);
                 
                 //Traza
-                System.out.println(nuevaCategoria.toString());
+                //System.out.println(nuevaCategoria.toString());
             }            
         }catch(Exception ex){
             System.out.println("Error Recuperando Datos de los Patrones");

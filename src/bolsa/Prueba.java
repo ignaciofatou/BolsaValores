@@ -30,12 +30,17 @@ public class Prueba {
         
         //PatronesCampos patronesCampos, String direccionWEB, String extensionWEB){
         Categoria categoria1 = categorias.getCategorias().get(0);
-        MegaBolsa megaBolsa = new MegaBolsa(patrones, categoria1);
+        Categoria categoria2 = categorias.getCategorias().get(1);
+
+        MegaBolsa megaBolsa1 = new MegaBolsa(patrones, categoria1);
+        MegaBolsa megaBolsa2 = new MegaBolsa(patrones, categoria2);
         
         System.out.println("Fecha: " + Fecha.getFechaHora("yyMMdd"));
         
         
-        megaBolsa.setDatosToBBDD(bd.getConexion(), "150410");
+        //megaBolsa.setDatosToBBDD(bd.getConexion(), "150410");
+        megaBolsa1.updateDatosBBDD(bd.getConexion(), 300);
+        megaBolsa2.updateDatosBBDD(bd.getConexion(), 300);
         
         //Cerramos la Base de Datos
         bd.cerrar();

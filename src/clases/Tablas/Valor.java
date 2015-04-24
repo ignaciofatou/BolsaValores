@@ -6,7 +6,6 @@
 package clases.Tablas;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 /**
  *
@@ -71,15 +70,20 @@ public class Valor {
                 cmd.setInt(3, this.numDecimales);
                 cmd.setString(4, this.descripcion);
                 cmd.executeUpdate();
+                System.out.println("Insertado el Valor: " + this.codValor + " en la Tabla de VALORES");
+                
+                //Se ha Insertado
+                return true;
 
             }catch(Exception ex){
                 System.out.println("Error al Insertar el Valor: " + this.codValor + " en la Tabla de VALORES");
                 ex.printStackTrace();
                 return false;
             }
-            System.out.println("Insertado el Valor: " + this.codValor + " en la Tabla de VALORES");
-        }        
-        return true;
+            
+        }
+        //No se ha Insertado
+        return false;
     }    
 
     //Comprueba que el Codigo de Valor Exista en la Tabla VALORES
