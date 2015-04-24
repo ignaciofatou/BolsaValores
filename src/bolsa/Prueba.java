@@ -30,7 +30,7 @@ public class Prueba {
         
         //PatronesCampos patronesCampos, String direccionWEB, String extensionWEB){
         Categoria categoria1 = categorias.getCategorias().get(0);
-        MegaBolsa megaBolsa = new MegaBolsa(patrones, categoria1.getUrlDatosFichero(), categoria1.getExtensionFichero());
+        MegaBolsa megaBolsa = new MegaBolsa(patrones, categoria1);
         
         System.out.println("Fecha: " + Fecha.getFechaHora("yyMMdd"));
         

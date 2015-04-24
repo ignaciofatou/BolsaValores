@@ -28,9 +28,11 @@ public class DatoValor {
     private final String VOLUMEN   = "VOLUMEN";
     
     //Constante para SQL
-    private final String QUERY_INSERT_DATOS   = "INSERT INTO DATOS_VALORES (COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private final String QUERY_SELECT_DATOS   = "SELECT COUNT(1) FROM DATOS_VALORES WHERE COD_VALOR = ? AND FECHA = ?";
-    private final String QUERY_SELECT_VALORES = "SELECT COUNT(1) FROM VALORES WHERE COD_VALOR = ?";
+    private final String QUERY_INSERT_DATOS = "INSERT INTO DATOS_VALORES (COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final String QUERY_SELECT_DATOS = "SELECT COUNT(1) FROM DATOS_VALORES WHERE COD_VALOR = ? AND FECHA = ?";
+    
+    //Constantes por Defecto
+    private final String CAT_DEF = "MERCONT";
     
     //Atributos Iniciales
     private String codValor;
@@ -40,6 +42,9 @@ public class DatoValor {
     private double minimo;
     private double cierre;
     private long   volumen;
+    
+    //Atributos Opcionales
+    private String codCategoria;
     
     //Atributos Calculados
     private double pivotPoint;
@@ -66,6 +71,7 @@ public class DatoValor {
             System.out.println(ex.getMessage());
         }
     }
+    
     //Cargamos los Datos Manualmente con los datos basicos
     public DatoValor(String codValor, String fecha, double apertura, double maximo, double minimo, double cierre, long volumen){
         this.codValor = codValor;
@@ -97,8 +103,11 @@ public class DatoValor {
     }
     
     //Construye a Partir de una Linea y del Patron
-    public DatoValor(PatronesCampos patronesCampos, String linea)
+    public DatoValor(PatronesCampos patronesCampos, String linea, String codCategoria)
     {
+        //Guardamos el Codigo de Categoria
+        this.codCategoria = codCategoria;
+        
         //A partir de la Linea guardamos los Datos en un ArrayList de Campos
         CamposLinea camposLinea = new CamposLinea(linea, patronesCampos.getSeparador());
 
@@ -111,25 +120,25 @@ public class DatoValor {
             String contenido = campoLinea.getContenido();
             
             switch(patronCampo.getCodValor()){
-                case "COD_VALOR":
+                case COD_VALOR:
                     this.codValor = contenido;
                     break;
-                case "FECHA":
+                case FECHA:
                     this.fecha = contenido;
                     break;
-                case "APERTURA":
+                case APERTURA:
                     this.apertura = Double.valueOf(contenido);
                     break;
-                case "MAXIMO":
+                case MAXIMO:
                     this.maximo = Double.valueOf(contenido);
                     break;
-                case "MINIMO":
+                case MINIMO:
                     this.minimo = Double.valueOf(contenido);
                     break;
-                case "CIERRE":
+                case CIERRE:
                     this.cierre = Double.valueOf(contenido);
                     break;
-                case "VOLUMEN":
+                case VOLUMEN:
                     this.volumen = Long.valueOf(contenido);
                     break;
             }
@@ -145,7 +154,7 @@ public class DatoValor {
             try{
                 PreparedStatement cmd = con.prepareStatement(QUERY_INSERT_DATOS);
                 cmd.setString(1, this.codValor);
-                cmd.setDate(2, Fecha.getFechaSqlDate(fecha, Fecha.YYYYMMDD));
+                cmd.setDate(2, Fecha.getFechaSqlDate(this.fecha, Fecha.YYYYMMDD));
                 cmd.setDouble(3, this.apertura);
                 cmd.setDouble(4, this.maximo);
                 cmd.setDouble(5, this.minimo);
@@ -157,38 +166,25 @@ public class DatoValor {
                 System.out.println("Error al Insertar el Valor: " + this.codValor + " en la Tabla de DATOS_VALORES");
                 ex.printStackTrace();
             }
+            System.out.println("Insertado el Dato del Valor: " + this.codValor + ", Fecha: " + this.fecha + " en la Tabla de DATOS_VALORES");
         }
     }
     private boolean isDatoValido(Connection con){
-        //Si el Valor Existe en la Tabla VALORES
-        if (isValores(con)){
-            //Comprueba que el Codigo de Valor Exista en la Tabla VALORES
-            return (notIsInDatosValores(con));
+        //Si el Valor No Existe en la Tabla VALORES -> Lo Insertamos
+        if (!Valor.isValores(con, this.codValor)){
+            //Si No tiene Informada la Categoria -> Asignamos una por defecto
+            if (this.codCategoria.isEmpty())
+                this.codCategoria = CAT_DEF;
+                    
+            //Insertamos el Nuevo Valor en la tabla VALORES
+            Valor newValor = new Valor(this.codValor, this.codCategoria);
+            newValor.insertValorBBDD(con);
         }
-        else
-            return false;
+        
+        //Comprueba que el Valor-Fecha No exista en la Tabla DATO_VALORES
+        return (notIsInDatosValores(con));
     }
-    //Comprueba que el Codigo de Valor Exista en la Tabla VALORES
-    private boolean isValores(Connection con){        
-        try{
-            PreparedStatement cmd = con.prepareStatement(QUERY_SELECT_VALORES);
-            cmd.setString(1, this.codValor);
-            ResultSet rs = cmd.executeQuery();
-            
-            if (rs.next()){
-                if (rs.getInt(1) == 1)
-                    return true;
-                else
-                    return false;
-            }else{
-                return false;
-            }
 
-        }catch(Exception ex){
-            return false;
-        }
-    }
-    
     //Comprueba que el Dato no Exista ya en la Tabla DATOS_VALORES
     private boolean notIsInDatosValores(Connection con){
         try{

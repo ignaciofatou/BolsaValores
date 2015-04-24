@@ -52,7 +52,7 @@ public class Categoria {
     @Override
     public String toString(){
         return COD_CAT + ": " + this.getCodCategoria() + ", " + DESCRIPCION + ": " + this.getDescripcion() + ", " + URL + ": " + this.getUrlDatosFichero() + ", " + FORMATOFECHA + ": " + this.getFormFechaFichero() + ", " + COMODIN + ": " + this.getComodinFichero() + ", " + EXTENSION + ": " + this.getExtensionFichero();
-    }    
+    }
 
     /**
      * @return the codCategoria

@@ -29,7 +29,7 @@ public class Valores {
             
             //Recorremos todos los Datos de Entrada
             while(rs.next()){
-                //Nuevo Campo de Categoria
+                //Nuevo Campo de Valor
                 Valor nuevoValor = new Valor(rs);
                 
                 //Añadimos nuevo campo a la lista

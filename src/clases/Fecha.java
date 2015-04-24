@@ -58,9 +58,24 @@ public class Fecha {
         //Retornamos
         return fecha;
     }
+    //Retorna la Fecha de String a Date (java.util.Date)
+    public static java.util.Date getFechaDate(String strFecha, String strFormato){
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat(strFormato);
+        java.util.Date fecha = null;
+
+        try {
+            //Realizamos la Conversion
+            fecha = formatoDelTexto.parse(strFecha);
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        //Retornamos
+        return fecha;
+    }
+    
     //Retorna la Fecha de String a Date (java.sql.Date)
     public static java.sql.Date getFechaSqlDate(String strFecha, String strFormato){
-        System.out.println("Fecha: " + strFecha + ", Formato: " + strFormato);
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat(strFormato);
         java.sql.Date sqlDate = null;
 

@@ -5,6 +5,8 @@
  */
 package clases.DatosMegaBolsa;
 
+import clases.Fecha;
+import clases.Tablas.Categoria;
 import clases.Tablas.DatoValor;
 import clases.Tablas.PatronesCampos;
 import java.io.BufferedReader;
@@ -15,18 +17,32 @@ import java.net.URL;
  *
  * @author Ignacio
   * http://www.megabolsa.com/cierres/150410.txt
+  * http://www.megabolsa.com/cierres/150402I.txt
  */
 public class MegaBolsa {
     
     private PatronesCampos patronesCampos;
     private String         direccionWEB;
-    private String         extensionWEB;    
+    private String         comodinWEB;
+    private String         extensionWEB;
+    private String         categoria;
     
-    public MegaBolsa(PatronesCampos patronesCampos, String direccionWEB, String extensionWEB){
+    public MegaBolsa(PatronesCampos patronesCampos, String direccionWEB, String comodinWEB, String extensionWEB, String categoria){
         this.patronesCampos = patronesCampos;
         this.direccionWEB   = direccionWEB;
+        this.comodinWEB     = comodinWEB;
         this.extensionWEB   = extensionWEB;
+        this.categoria      = categoria;
     }
+    
+    public MegaBolsa(PatronesCampos patronesCampos, Categoria categoria){
+        this.patronesCampos = patronesCampos;
+        this.direccionWEB   = categoria.getUrlDatosFichero();
+        this.comodinWEB     = categoria.getComodinFichero();
+        this.extensionWEB   = categoria.getExtensionFichero();
+        this.categoria      = categoria.getCodCategoria();
+    }
+    
     //Recupera los Datos de la Web megabolsa.com y los Inserta en la Base de Datos
     public void setDatosToBBDD(java.sql.Connection con, String fecha){
         //Retorna los Datos de los Valores Para un Dia
@@ -34,7 +50,7 @@ public class MegaBolsa {
         DatoValor      datoValor;
         
         //URL desde la que vamos a Obtener la Informacion
-        String direccionInformacion = direccionWEB + fecha + extensionWEB;
+        String direccionInformacion = this.direccionWEB + fecha + this.comodinWEB + this.extensionWEB;
         System.out.println("Tratamos de Acceder a: "+direccionInformacion);
         
         //Variables Para leer la URL
@@ -50,7 +66,7 @@ public class MegaBolsa {
             //Recorremos el Fichero de la URL hasta el Final
             while ((lineaLeida = buffer.readLine()) != null){
                 //Por Cada Linea Creamos un Nuevo Dato Valor
-                datoValor = new DatoValor(patronesCampos, lineaLeida);                
+                datoValor = new DatoValor(patronesCampos, lineaLeida, categoria);                
                 
                 //Añadimos el Nuevo Dato del Valor al ArrayList
                 datoDiaValores.setNuevoValor(datoValor);
@@ -64,5 +80,17 @@ public class MegaBolsa {
         }
         //Insertamos los Datos de los Valores en BBDD
         datoDiaValores.insertaDatoValoresBBDD(con);
+    }
+    
+    public void updateDatosBBDD(){
+        
+        java.util.Date datFecha = Fecha.getFechaDate("150410", "YYMMDD");
+        System.out.println(datFecha.toString());
+        
+        //datFecha
+//            .calendar.add(Calendar.DAY_OF_YEAR, dias);
+        
+        //http://developando.com/blog/java-sumar-restar-horas-dias-fecha
+        //http://carloszuluaga.wikidot.com/articulos:manejo-de-fechas-en-java-ii
     }
 }
