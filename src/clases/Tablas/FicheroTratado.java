@@ -44,21 +44,7 @@ public class FicheroTratado {
 
     //Inserccion en la Tabla de VALORES
     public boolean insertFicheroBBDD(java.sql.Connection con){
-        
-        /**
-         * com.mysql.jdbc.MysqlDataTruncation: Data truncation: Out of range value for column 'NUM_REG' at row 1
-	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4118)
-	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4052)
-	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2503)
-	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2664)
-	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2794)
-	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2155)
-	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2458)
-	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2375)
-	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2359)
-	at clases.Tablas.FicheroTratado.insertFicheroBBDD(FicheroTratado.java:54)
-         */
-        
+
         //Si el Valor No Existe en BBDD -> Es Valido para Insertar
         if (!estaYaTratado(con, this.nomFichero)){
             try{

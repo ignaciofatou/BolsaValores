@@ -161,12 +161,12 @@ public class DatoValor {
                 cmd.setDouble(6, this.cierre);
                 cmd.setLong(7, this.volumen);
                 cmd.executeUpdate();
+                //System.out.println("Insertado el Dato del Valor: " + this.codValor + ", Fecha: " + this.fecha + " en la Tabla de DATOS_VALORES");
 
             }catch(Exception ex){
                 System.out.println("Error al Insertar el Valor: " + this.codValor + " en la Tabla de DATOS_VALORES");
                 ex.printStackTrace();
-            }
-            System.out.println("Insertado el Dato del Valor: " + this.codValor + ", Fecha: " + this.fecha + " en la Tabla de DATOS_VALORES");
+            }            
         }
     }
     private boolean isDatoValido(Connection con){
