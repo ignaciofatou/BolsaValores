@@ -6,8 +6,8 @@
 package clases.Tablas;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -16,17 +16,22 @@ import java.util.ArrayList;
  */
 public class Valores {
     //Constantes
-    private final String QUERY_VALORES = "SELECT COD_VALOR, COD_CAT, DECIMALES, DESCRIPCION FROM VALORES ORDER BY COD_VALOR ASC";
-            
+    private final String QUERY_VALORES = "SELECT COD_VALOR, COD_CAT, DECIMALES, DESCRIPCION FROM VALORES WHERE COD_CAT = ? ORDER BY COD_VALOR ASC";
+
     //Atributos
     private ArrayList<Valor> valores = new ArrayList();
+    private String categoria;
 
-    public Valores(Connection con){
-        
+    public Valores(Connection con, String categoria){
+        //Inicializamos el Atributo Categoria
+        this.categoria = categoria;
+
         try{
-            Statement cmd = con.createStatement();
-            ResultSet rs = cmd.executeQuery(QUERY_VALORES);
-            
+            //Ejecutamos la Query Filtando por Codigo de Categoria
+            PreparedStatement cmd = con.prepareStatement(QUERY_VALORES);
+            cmd.setString(1, categoria);
+            ResultSet rs = cmd.executeQuery();
+
             //Recorremos todos los Datos de Entrada
             while(rs.next()){
                 //Nuevo Campo de Valor
@@ -48,5 +53,12 @@ public class Valores {
      */
     public ArrayList<Valor> getValores() {
         return valores;
+    }
+
+    /**
+     * @return the categoria
+     */
+    public String getCategoria() {
+        return categoria;
     }
 }

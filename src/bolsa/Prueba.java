@@ -24,7 +24,7 @@ public class Prueba {
     public static void main(String[] args) {
         BaseDeDatos bd = new BaseDeDatos();
         PatronesCampos patrones     = new PatronesCampos(bd.getConexion());
-        Categorias     categorias   = new Categorias(bd.getConexion());        
+        Categorias     categorias   = new Categorias(bd.getConexion());
         //DatosValores   datosValores = new DatosValores(bd.getConexion());
         //Valores        valores      = new Valores(bd.getConexion());
         
