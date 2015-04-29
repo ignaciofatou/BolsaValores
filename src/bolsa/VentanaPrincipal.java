@@ -8,7 +8,6 @@ package bolsa;
 import clases.BaseDeDatos;
 import clases.Tablas.Categoria;
 import clases.Tablas.Categorias;
-import clases.Tablas.PatronesCampos;
 import clases.Tablas.Valor;
 import clases.Tablas.Valores;
 import java.sql.Connection;
@@ -23,7 +22,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     Connection conexion;
     Categorias categorias;
     Valores    valores;
-    PatronesCampos patrones;
     
     /**
      * Creates new form VentanaPrincipal
@@ -203,7 +201,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     //Cargamos la Tabla de Categorias desde la BBDD
     private void cargaTablaCategorias(){
+        //Cargamos la Tabla de Categorias desde la BBDD
         categorias = new Categorias(conexion);
+        
+        //Actualiza los Datos de cada Categoria desde la Web MegaBolsa
+        categorias.actualizaDatosCategorias(conexion);
     }
     //Cargamos el Combo Box de Categorias
     private void cargarComboBoxCategorias(){
@@ -247,11 +249,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             //Cargamos en el ComboBox la Descripcion del Valor
             jCBValores.addItem(valor.getDescripcion());
         }
-    }
-    
-    //Cargamos la Tabla de Patrones desde la BBDD
-    private void cargaTablaPatrones(){
-        patrones = new PatronesCampos(conexion);
     }
     
     /**

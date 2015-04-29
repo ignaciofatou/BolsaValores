@@ -19,8 +19,9 @@ public class Categorias {
     private final String QUERY_CATEGORIAS_DATOS = "SELECT COD_CAT, DESCRIPCION, URL, FORMATOFECHA, COMODIN, EXTENSION FROM CATEGORIAS";
             
     //Atributos
-    private ArrayList<Categoria> categorias = new ArrayList();
+    private ArrayList<Categoria> categorias   = new ArrayList();
 
+    //Constructor
     public Categorias(Connection con){
         
         try{
@@ -30,8 +31,8 @@ public class Categorias {
             //Recorremos todos los Datos de Entrada
             while(rs.next()){
                 //Nuevo Campo de Categoria
-                Categoria nuevaCategoria = new Categoria(rs);
-                
+                Categoria nuevaCategoria = new Categoria(con, rs);
+
                 //Añadimos nuevo campo a la lista
                 categorias.add(nuevaCategoria);
                 
@@ -40,6 +41,15 @@ public class Categorias {
             }            
         }catch(Exception ex){
             System.out.println("Error Recuperando Datos de los Patrones");
+        }
+    }
+    
+    //Actualiza los Datos de cada Categoria desde la Web MegaBolsa
+    public void actualizaDatosCategorias(Connection con){
+        //Recorre todas las Categorias
+        for (Categoria categoria: categorias){
+            //Actualiza los Datos de cada Categoria desde la Web MegaBolsa
+            categoria.actualizaDatosMegaBolsa();
         }
     }
 

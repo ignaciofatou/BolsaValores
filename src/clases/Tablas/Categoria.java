@@ -5,12 +5,15 @@
  */
 package clases.Tablas;
 
+import clases.DatosMegaBolsa.MegaBolsa;
+import java.sql.Connection;
+
 /**
  *
  * @author Ignacio
  */
 public class Categoria {
-    
+
     //Constantes
     private final String COD_CAT      = "COD_CAT";
     private final String DESCRIPCION  = "DESCRIPCION";
@@ -18,7 +21,7 @@ public class Categoria {
     private final String FORMATOFECHA = "FORMATOFECHA";
     private final String COMODIN      = "COMODIN";
     private final String EXTENSION    = "EXTENSION";
-    
+
     //Atributos
     private String codCategoria;
     private String descripcion;
@@ -26,9 +29,23 @@ public class Categoria {
     private String formFechaFichero;
     private String comodinFichero;
     private String extensionFichero;
+
+    //Se guardan los Valores de dicha Categoria
+    private Valores valores;
+
+    //Se guardan los Datos de los Valores de dicha Categoria
+    private MegaBolsa datosValores;
     
-    public Categoria(java.sql.ResultSet rs){
-        try{
+    //Atributo para guardar la Conexion
+    private Connection con;
+
+
+    //Constructor desde BBDD
+    public Categoria(Connection con, java.sql.ResultSet rs){
+        //Guardamos la Conexion
+        this.con = con;
+        
+        try{            
             this.codCategoria     = rs.getString(COD_CAT);
             this.descripcion      = rs.getString(DESCRIPCION);
             this.urlDatosFichero  = rs.getString(URL);
@@ -38,17 +55,26 @@ public class Categoria {
         }catch(java.sql.SQLException ex){
             System.out.println(ex.getMessage());
         }
+
+        //Cargamos los Valores de Dicha Categoria
+        cargaTablaValores();
     }
-    
-    public Categoria(String codCategoria, String descripcion, String urlDatosFichero, String formFechaFichero, String comodinFichero, String extensionFichero){
-        this.codCategoria     = codCategoria;
-        this.descripcion      = descripcion;
-        this.urlDatosFichero  = urlDatosFichero;
-        this.formFechaFichero = formFechaFichero;
-        this.comodinFichero   = comodinFichero;
-        this.extensionFichero = extensionFichero;
+
+    //Cargamos los Valores de Dicha Categoria
+    private void cargaTablaValores(){
+        valores = new Valores(con, this.codCategoria);
     }
-    
+
+    //Actualiza los Datos de los Valores de la Web MegaBolsa
+    public void actualizaDatosMegaBolsa(){
+
+        //Obtenemos los Datos de los Valores de la Web de MegaBolsa
+        datosValores = new MegaBolsa(con, urlDatosFichero, comodinFichero, extensionFichero, codCategoria);
+
+        //Actualizamos los Datos de los Valores de la Web de MegaBolsa (Tarea en Paralelo)
+        getDatosValores().start();
+    }
+
     @Override
     public String toString(){
         return COD_CAT + ": " + this.getCodCategoria() + ", " + DESCRIPCION + ": " + this.getDescripcion() + ", " + URL + ": " + this.getUrlDatosFichero() + ", " + FORMATOFECHA + ": " + this.getFormFechaFichero() + ", " + COMODIN + ": " + this.getComodinFichero() + ", " + EXTENSION + ": " + this.getExtensionFichero();
@@ -94,5 +120,12 @@ public class Categoria {
      */
     public String getExtensionFichero() {
         return extensionFichero;
+    }
+
+    /**
+     * @return the datosValores
+     */
+    public MegaBolsa getDatosValores() {
+        return datosValores;
     }
 }
