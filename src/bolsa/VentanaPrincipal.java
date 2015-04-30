@@ -8,9 +8,12 @@ package bolsa;
 import clases.BaseDeDatos;
 import clases.Tablas.Categoria;
 import clases.Tablas.Categorias;
+import clases.Tablas.DatosValor;
 import clases.Tablas.Valor;
 import clases.Tablas.Valores;
 import java.sql.Connection;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,7 +24,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     //Atributos
     Connection conexion;
     Categorias categorias;
-    Valores    valores;
     
     /**
      * Creates new form VentanaPrincipal
@@ -41,9 +43,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         //Inicializamos las Categorias
         inicializaCategorias();
-        
-        //Inicializamos los Valores
-        inicializaValores();
     }
     
     //Conectamos a la Base de Datos (Cargamos el Objeto conexion)
@@ -69,7 +68,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jCBValores = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTDatosValor = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,7 +123,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTDatosValor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -135,7 +134,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTDatosValor);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -188,7 +187,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCBCategoriasItemStateChanged
 
     private void jCBValoresItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBValoresItemStateChanged
-        // TODO add your handling code here:
+
+        //Una vez Desmarcado el Valor Seleccionado
+        if (evt.getStateChange() == java.awt.event.ItemEvent.DESELECTED){
+            cargaDatosValor();
+        }
     }//GEN-LAST:event_jCBValoresItemStateChanged
 
     private void inicializaCategorias(){
@@ -197,6 +200,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         
         //Cargamos el Combo Box de Categorias
         cargarComboBoxCategorias();
+        
+        //Cargamos el Combo Box de Valores
+        inicializaValores();
+    }
+    
+    private void inicializaValores(){
+        //Cargamos el Combo Box de Valores
+        cargarComboBoxValores();
+        
+        //Cargamos el JTable Inicial
+        cargaDatosValor();
+    }
+    
+    //Carga los Datos del Valor Seleccionado
+    private void cargaDatosValor(){
+        //Obtenemos la Categoria Seleccionada
+        Categoria categoria = categorias.getCategorias().get(jCBCategorias.getSelectedIndex());
+        
+        //Obtenemos el Valor Seleccionado
+        Valor valor = categoria.getValores().getValores().get(jCBValores.getSelectedIndex());
+        
+        //Obtenemos los Datos del Valor
+        DatosValor datosValor = valor.getDatosValor();
+        
+        List datos = datosValor.getDatosValor();
+        
+        
+        String cabecera[]= {"Nombre", "Fecha", "Cierre", "Máximo", "Mínimo", "Variación", "%Var", "S2", "S1", "PivotP", "R1", "R2"};
+        //String datos[][] = {};
+        DefaultTableModel modelo = new DefaultTableModel(datos, cabecera);
+        
+        jTDatosValor.setModel(modelo);
+        
+        
+        System.out.println("Se ha seleccionado el Valor: " + valor.getDescripcion());
     }
     
     //Cargamos la Tabla de Categorias desde la BBDD
@@ -205,10 +243,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         categorias = new Categorias(conexion);
         
         //Actualiza los Datos de cada Categoria desde la Web MegaBolsa
-        categorias.actualizaDatosCategorias(conexion);
+        categorias.actualizaDatosCategorias();
     }
+
     //Cargamos el Combo Box de Categorias
     private void cargarComboBoxCategorias(){
+
         //Inicializamos el ComboBox (Solo si ya hay Informacion de Anterioridad)
         if (jCBCategorias.getItemCount() != 0)
             jCBCategorias = new javax.swing.JComboBox();
@@ -221,25 +261,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //Marcamos por defecto el Primero Item como Seleccionado
         jCBCategorias.setSelectedIndex(0);
     }
-    //Obtiene el Codigo de la Categoria Seleccionada
-    private String getCategoria(){
-        String codCategoria = categorias.getCategorias().get(jCBCategorias.getSelectedIndex()).getCodCategoria();
-        return codCategoria;
-    }
 
-    private void inicializaValores(){
-        //Cargamos la Tabla de Valores desde la BBDD
-        cargaTablaValores();
-        
-        //Cargamos el Combo Box de Valores
-        cargarComboBoxValores();
-    }
-    //Cargamos la Tabla de Valores desde la BBDD filtrando por Categoria
-    private void cargaTablaValores(){
-        valores = new Valores(conexion, getCategoria());
-    }
     //Cargamos el Combo Box de Categorias
     private void cargarComboBoxValores(){
+        
+        //Obtenemos la Categoria Seleccionada
+        Categoria categoria = categorias.getCategorias().get(jCBCategorias.getSelectedIndex());
+        
+        //Obtenemos los Valores de la Categoria Seleccionada
+        Valores valores = categoria.getValores();
+        
         //Inicializamos el ComboBox (Solo si ya hay Informacion de Anterioridad)
         if (jCBValores.getItemCount() != 0)
             jCBValores.removeAllItems();
@@ -294,6 +325,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTDatosValor;
     // End of variables declaration//GEN-END:variables
 }

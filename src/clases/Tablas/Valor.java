@@ -5,6 +5,7 @@
  */
 package clases.Tablas;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 /**
@@ -29,9 +30,12 @@ public class Valor {
     private String codCategoria;
     private int    numDecimales;
     private String descripcion;
+    
+    //Guardamos los Datos de ese Valor
+    private DatosValor datosValor;
 
     //Constructor que a partir del Result asigna el valor a los Atributos
-    public Valor(java.sql.ResultSet rs){
+    public Valor(Connection con, java.sql.ResultSet rs){
         try{
             this.codValor     = rs.getString(COD_VALOR);
             this.codCategoria = rs.getString(COD_CAT);
@@ -40,6 +44,9 @@ public class Valor {
         }catch(java.sql.SQLException ex){
             System.out.println(ex.getMessage());
         }
+        
+        //Cargamos los Datos de ese Valor
+        cargaDatosValor(con);
     }
 
     //Constructor Normal
@@ -56,6 +63,10 @@ public class Valor {
         this.codCategoria = codCategoria;
         this.numDecimales = DECIMAL_DEF;
         this.descripcion  = codValor;
+    }
+    
+    private void cargaDatosValor(Connection con){
+        datosValor = new DatosValor(con, codValor);
     }
     
     //Inserccion en la Tabla de VALORES
@@ -135,4 +146,11 @@ public class Valor {
     public String getDescripcion() {
         return descripcion;
     }    
+
+    /**
+     * @return the datosValor
+     */
+    public DatosValor getDatosValor() {
+        return datosValor;
+    }
 }

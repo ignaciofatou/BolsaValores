@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,7 +22,7 @@ public class PatronesCampos {
     private final String SEPARADOR            = ",";
     
     //Atributos
-    private ArrayList<PatronCampo> patronesCampo = new ArrayList();
+    private List<PatronCampo> patronesCampo = new ArrayList();
 
     public PatronesCampos(Connection con){
         
@@ -52,7 +53,7 @@ public class PatronesCampos {
     /**
      * @return the listaCampos
      */
-    public ArrayList<PatronCampo> getPatronesCampos() {
+    public List<PatronCampo> getPatronesCampos() {
         return patronesCampo;
     }
 }

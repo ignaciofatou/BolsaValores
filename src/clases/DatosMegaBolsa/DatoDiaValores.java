@@ -4,6 +4,7 @@
 package clases.DatosMegaBolsa;
 
 import clases.Tablas.DatoValor;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,8 @@ import java.util.ArrayList;
  * @author Ignacio
  */
 public class DatoDiaValores {
-    private ArrayList <DatoValor> datoDiaValores;
+    //Atributos
+    private List <DatoValor> datoDiaValores;
     private String fecha;
     
     //Constructor
@@ -26,7 +28,7 @@ public class DatoDiaValores {
     /**
      * @return the datoDiaValores
      */
-    public ArrayList <DatoValor> getDatoDiaValores() {
+    public List <DatoValor> getDatoDiaValores() {
         return datoDiaValores;
     }
 

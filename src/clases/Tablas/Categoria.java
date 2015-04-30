@@ -35,7 +35,7 @@ public class Categoria {
 
     //Se guardan los Datos de los Valores de dicha Categoria
     private MegaBolsa datosValores;
-    
+
     //Atributo para guardar la Conexion
     private Connection con;
 
@@ -127,5 +127,12 @@ public class Categoria {
      */
     public MegaBolsa getDatosValores() {
         return datosValores;
+    }
+
+    /**
+     * @return the valores
+     */
+    public Valores getValores() {
+        return valores;
     }
 }

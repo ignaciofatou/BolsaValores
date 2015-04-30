@@ -7,6 +7,7 @@ package clases.Tablas;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class DatosValores {
             
     //Atributos
-    private ArrayList<DatosValor> datosValores = new ArrayList();
+    private List<DatosValor> datosValores = new ArrayList();
     private Valores valores;
     private String  categoria;
 
@@ -27,7 +28,7 @@ public class DatosValores {
 
         for(Valor valor:valores.getValores()){
             //Nuevo Campo de Datos Valor
-            DatosValor nuevoDatosValor = new DatosValor(con, valor);
+            DatosValor nuevoDatosValor = new DatosValor(con, valor.getCodValor());
 
             //Añadimos nuevo campo a la lista
             datosValores.add(nuevoDatosValor);
@@ -40,7 +41,7 @@ public class DatosValores {
     /**
      * @return the datosValores
      */
-    public ArrayList<DatosValor> getDatosValores() {
+    public List<DatosValor> getDatosValores() {
         return datosValores;
     }
 

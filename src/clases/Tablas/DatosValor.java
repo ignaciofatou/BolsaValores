@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,19 +21,23 @@ public class DatosValor {
     private final String COD_VALOR               = "COD_VALOR";
             
     //Atributos
-    private ArrayList<DatoValor> datosValor = new ArrayList();
-    private Valor  valor;
+    private List<DatoValor> datosValor = new ArrayList();
     private String codValor;
+    
+    //Atributos de BBDD
+    Connection conexion;
 
-    public DatosValor(Connection con, Valor valor){
+    public DatosValor(Connection con, String codValor){
+        
+        //Hacemos copia de la Conexion
+        conexion = con;
         
         //Inicializamos el Atributo Codigo Valor
-        this.valor    = valor;
-        this.codValor = valor.getCodValor();
+        this.codValor = codValor;
         
         try{
             //Ejecutamos la Query Filtando por Codigo de Valor
-            PreparedStatement cmd = con.prepareStatement(QUERY_DATOS_VALOR_DATOS);
+            PreparedStatement cmd = conexion.prepareStatement(QUERY_DATOS_VALOR_DATOS);
             cmd.setString(1, codValor);
             ResultSet rs = cmd.executeQuery();
             
@@ -60,7 +65,7 @@ public class DatosValor {
     /**
      * @return the datosValor
      */
-    public ArrayList<DatoValor> getDatosValor() {
+    public List<DatoValor> getDatosValor() {
         return datosValor;
     }
 
@@ -69,12 +74,5 @@ public class DatosValor {
      */
     public String getCodValor() {
         return codValor;
-    }
-
-    /**
-     * @return the valor
-     */
-    public Valor getValor() {
-        return valor;
     }
 }

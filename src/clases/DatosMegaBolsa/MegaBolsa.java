@@ -80,7 +80,7 @@ public class MegaBolsa extends Thread{
                     //Por Cada Linea Creamos un Nuevo Dato Valor
                     datoValor = new DatoValor(patronesCampos, lineaLeida, categoria);                
 
-                    //Añadimos el Nuevo Dato del Valor al ArrayList
+                    //Añadimos el Nuevo Dato del Valor al List
                     datoDiaValores.setNuevoValor(datoValor);
                 }
                 //Cerramos el Buffer

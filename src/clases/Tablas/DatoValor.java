@@ -65,7 +65,7 @@ public class DatoValor {
             this.volumen  = rs.getLong(VOLUMEN);
             
             //Calculamos el Resto de Valores
-            calculaRestoValores();
+            //calculaRestoValores();
 
         }catch(java.sql.SQLException ex){
             System.out.println(ex.getMessage());
@@ -83,7 +83,7 @@ public class DatoValor {
         this.volumen  = volumen;
         
         //Calculamos el Resto de Valores
-        calculaRestoValores();
+        //calculaRestoValores();
     }
     
     //Cargamos los Datos Manualmente con todos los datos
@@ -108,10 +108,10 @@ public class DatoValor {
         //Guardamos el Codigo de Categoria
         this.codCategoria = codCategoria;
         
-        //A partir de la Linea guardamos los Datos en un ArrayList de Campos
+        //A partir de la Linea guardamos los Datos en un List de Campos
         CamposLinea camposLinea = new CamposLinea(linea, patronesCampos.getSeparador());
 
-        //Recorremos el ArrayList de Patrones
+        //Recorremos el List de Patrones
         for(PatronCampo patronCampo:patronesCampos.getPatronesCampos()){
             
             //Recuperamos el Campo especificado en la Posicion del Patron

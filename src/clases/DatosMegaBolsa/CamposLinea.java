@@ -6,6 +6,7 @@
 package clases.DatosMegaBolsa;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,11 +14,11 @@ import java.util.ArrayList;
  */
 public class CamposLinea {
     //Atributos
-    private ArrayList <CampoLinea> camposLinea;
+    private List <CampoLinea> camposLinea;
     
     public CamposLinea(String linea, String separador){
         
-        //Creamos el ArrayList de Campos para Almacenar cada Campo de la Linea
+        //Creamos el List de Campos para Almacenar cada Campo de la Linea
         camposLinea = new ArrayList();
         CampoLinea campoLinea;
         
@@ -42,7 +43,7 @@ public class CamposLinea {
                 //Creamos un Nuevo Campo
                 campoLinea = new CampoLinea(campo, ++contCampos);
 
-                //Incluimos el Nuevo Campo en el ArrayList
+                //Incluimos el Nuevo Campo en el List
                 camposLinea.add(campoLinea);
 
                 //Actualizamos la Posicion del Indice
@@ -56,7 +57,7 @@ public class CamposLinea {
     /**
      * @return the camposLinea
      */
-    public ArrayList <CampoLinea> getCamposLinea() {
+    public List <CampoLinea> getCamposLinea() {
         return camposLinea;
     }
 }
