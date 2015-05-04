@@ -11,6 +11,7 @@ import clases.Fecha;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  *
@@ -103,16 +104,16 @@ public class DatoValor {
     }
     
     //Construye a Partir de una Linea y del Patron
-    public DatoValor(PatronesCampos patronesCampos, String linea, String codCategoria)
+    public DatoValor(List <PatronCampo> patronesCampos, String linea, String codCategoria)
     {
         //Guardamos el Codigo de Categoria
         this.codCategoria = codCategoria;
         
         //A partir de la Linea guardamos los Datos en un List de Campos
-        CamposLinea camposLinea = new CamposLinea(linea, patronesCampos.getSeparador());
+        CamposLinea camposLinea = new CamposLinea(linea, ",");
 
         //Recorremos el List de Patrones
-        for(PatronCampo patronCampo:patronesCampos.getPatronesCampos()){
+        for(PatronCampo patronCampo:patronesCampos){
             
             //Recuperamos el Campo especificado en la Posicion del Patron
             int posicion = patronCampo.getOrden();

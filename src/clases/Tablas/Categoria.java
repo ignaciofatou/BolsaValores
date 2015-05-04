@@ -5,8 +5,10 @@
  */
 package clases.Tablas;
 
+import clases.Secundarias.Valores;
 import clases.DatosMegaBolsa.MegaBolsa;
 import java.sql.Connection;
+import java.util.List;
 
 /**
  *
@@ -31,7 +33,7 @@ public class Categoria {
     private String extensionFichero;
 
     //Se guardan los Valores de dicha Categoria
-    private Valores valores;
+    private List<Valor> valores;
 
     //Se guardan los Datos de los Valores de dicha Categoria
     private MegaBolsa datosValores;
@@ -62,7 +64,8 @@ public class Categoria {
 
     //Cargamos los Valores de Dicha Categoria
     private void cargaTablaValores(){
-        valores = new Valores(con, this.codCategoria);
+        Valores auxValores = new Valores(con, this.codCategoria);
+        valores = auxValores.getValores();
     }
 
     //Actualiza los Datos de los Valores de la Web MegaBolsa
@@ -132,7 +135,7 @@ public class Categoria {
     /**
      * @return the valores
      */
-    public Valores getValores() {
+    public List<Valor> getValores() {
         return valores;
     }
 }

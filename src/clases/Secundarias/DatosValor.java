@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases.Tablas;
+package clases.Secundarias;
 
+import clases.Tablas.DatoValor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class DatosValor {
     //Constantes
-    private final String QUERY_DATOS_VALOR_DATOS = "SELECT COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN FROM DATOS_VALORES WHERE COD_VALOR = ? ORDER BY FECHA ASC";
+    private final String QUERY_DATOS_VALOR_DATOS = "SELECT COD_VALOR, FECHA, APERTURA, MAXIMO, MINIMO, CIERRE, VOLUMEN FROM DATOS_VALORES WHERE COD_VALOR = ? ORDER BY FECHA DESC";
     private final String COD_VALOR               = "COD_VALOR";
             
     //Atributos
@@ -50,7 +51,7 @@ public class DatosValor {
                 datosValor.add(nuevoDatoValor);
                 
                 //Traza
-                System.out.println(nuevoDatoValor.toString());
+                //System.out.println(nuevoDatoValor.toString());
             }            
         }catch(Exception ex){
             System.out.println("Error Recuperando los Datos del Valor: " + this.codValor);

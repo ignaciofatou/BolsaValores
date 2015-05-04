@@ -8,11 +8,13 @@ package bolsa;
 import clases.BaseDeDatos;
 import clases.Tablas.Categoria;
 import clases.Tablas.Categorias;
-import clases.Tablas.DatosValor;
+import clases.Tablas.DatoValor;
+import clases.Secundarias.DatosValor;
 import clases.Tablas.Valor;
-import clases.Tablas.Valores;
+import clases.Secundarias.Valores;
 import java.sql.Connection;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -125,13 +127,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         jTDatosValor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(jTDatosValor);
@@ -213,30 +212,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         cargaDatosValor();
     }
     
-    //Carga los Datos del Valor Seleccionado
-    private void cargaDatosValor(){
-        //Obtenemos la Categoria Seleccionada
-        Categoria categoria = categorias.getCategorias().get(jCBCategorias.getSelectedIndex());
-        
-        //Obtenemos el Valor Seleccionado
-        Valor valor = categoria.getValores().getValores().get(jCBValores.getSelectedIndex());
-        
-        //Obtenemos los Datos del Valor
-        DatosValor datosValor = valor.getDatosValor();
-        
-        List datos = datosValor.getDatosValor();
-        
-        
-        String cabecera[]= {"Nombre", "Fecha", "Cierre", "Máximo", "Mínimo", "Variación", "%Var", "S2", "S1", "PivotP", "R1", "R2"};
-        //String datos[][] = {};
-        DefaultTableModel modelo = new DefaultTableModel(datos, cabecera);
-        
-        jTDatosValor.setModel(modelo);
-        
-        
-        System.out.println("Se ha seleccionado el Valor: " + valor.getDescripcion());
-    }
-    
     //Cargamos la Tabla de Categorias desde la BBDD
     private void cargaTablaCategorias(){
         //Cargamos la Tabla de Categorias desde la BBDD
@@ -251,7 +226,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         //Inicializamos el ComboBox (Solo si ya hay Informacion de Anterioridad)
         if (jCBCategorias.getItemCount() != 0)
-            jCBCategorias = new javax.swing.JComboBox();
+            reiniciaCombo(jCBCategorias);
 
         //Recorremos el ArrayList de categorias
         for (Categoria categoria:categorias.getCategorias()){
@@ -269,18 +244,84 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Categoria categoria = categorias.getCategorias().get(jCBCategorias.getSelectedIndex());
         
         //Obtenemos los Valores de la Categoria Seleccionada
-        Valores valores = categoria.getValores();
+        List <Valor> valores = categoria.getValores();
         
-        //Inicializamos el ComboBox (Solo si ya hay Informacion de Anterioridad)
-        if (jCBValores.getItemCount() != 0)
-            jCBValores.removeAllItems();
-
+        try{        
+            //Inicializamos el ComboBox (Solo si ya hay Informacion de Anterioridad)
+            if (jCBValores.getItemCount() != 0)
+                reiniciaCombo(jCBValores);            
+            
+        }catch(Exception ex){
+            System.out.println("Error IFC: " + ex.toString());
+        }
         //Recorremos el ArrayList de Valores
-        for (Valor valor:valores.getValores()){
+        for (Valor valor:valores){
             //Cargamos en el ComboBox la Descripcion del Valor
             jCBValores.addItem(valor.getDescripcion());
         }
+        //Marcamos por defecto el Primero Item como Seleccionado
+        jCBValores.setSelectedIndex(0);
     }
+    
+    private void reiniciaCombo(javax.swing.JComboBox combo){
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        combo.setModel(modelo);
+    }
+    
+    //Carga los Datos del Valor Seleccionado
+    private void cargaDatosValor(){
+        //Obtenemos la Categoria Seleccionada
+        Categoria categoria = categorias.getCategorias().get(jCBCategorias.getSelectedIndex());
+        
+        //Obtenemos el Valor Seleccionado
+        int posValorSeleccionado = jCBValores.getSelectedIndex();
+        Valor valor = categoria.getValores().get(posValorSeleccionado);
+        
+        //Obtenemos los Datos del Valor
+        List <DatoValor> datosValor = valor.getDatosValor();
+        
+        //Carga el JTable con los Datos
+        cargaJTableDatos(datosValor);
+    }
+    
+    public void cargaJTableDatos(List<DatoValor> datosValor)
+    {
+        //Declaracion de Variables
+        String cabecera[]= {"Nombre", "Fecha", "Apertura", "Máximo", "Mínimo", "Cierre", "Volumen"};
+        String datos[][] = {};
+        DefaultTableModel modelo = new DefaultTableModel(datos, cabecera);
+        jTDatosValor.setModel(modelo);
+        Object oDatos[]= {"", "", "", "", "", "", ""};
+        int anchos[]={100, 70, 50, 50, 50, 50, 70};
+
+        //Establecemos el Tamaño de Cada Columna
+        for (int i = 0; i < jTDatosValor.getColumnCount(); i++)
+            jTDatosValor.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        
+        //Obtenemos el numero de Registros
+        int numReg = datosValor.size();
+       
+        try {
+            //Recorremos toda la Matriz
+            for (int x = 0; x < numReg; x++) {
+                if (datosValor.get(x) != null) {
+                    oDatos[0] = datosValor.get(x).getCodValor();
+                    oDatos[1] = datosValor.get(x).getFecha();
+                    oDatos[2] = datosValor.get(x).getApertura();
+                    oDatos[3] = datosValor.get(x).getMaximo();
+                    oDatos[4] = datosValor.get(x).getMinimo();
+                    oDatos[5] = datosValor.get(x).getCierre();
+                    oDatos[6] = datosValor.get(x).getVolumen();
+
+                    //Añadimos la Fila Nueva
+                    modelo.addRow(oDatos);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error al Rellenar la Tabla " + e.getMessage());
+        }
+    }
+    
     
     /**
      * @param args the command line arguments

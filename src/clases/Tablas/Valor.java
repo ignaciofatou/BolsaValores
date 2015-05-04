@@ -5,8 +5,10 @@
  */
 package clases.Tablas;
 
+import clases.Secundarias.DatosValor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 /**
  *
@@ -32,7 +34,7 @@ public class Valor {
     private String descripcion;
     
     //Guardamos los Datos de ese Valor
-    private DatosValor datosValor;
+    private List <DatoValor> datosValor;
 
     //Constructor que a partir del Result asigna el valor a los Atributos
     public Valor(Connection con, java.sql.ResultSet rs){
@@ -66,7 +68,8 @@ public class Valor {
     }
     
     private void cargaDatosValor(Connection con){
-        datosValor = new DatosValor(con, codValor);
+        DatosValor auxDatosValor = new DatosValor(con, codValor);
+        datosValor = auxDatosValor.getDatosValor();
     }
     
     //Inserccion en la Tabla de VALORES
@@ -150,7 +153,7 @@ public class Valor {
     /**
      * @return the datosValor
      */
-    public DatosValor getDatosValor() {
+    public List<DatoValor> getDatosValor() {
         return datosValor;
     }
 }

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clases.Tablas;
+package clases.Secundarias;
 
+import clases.Tablas.Valor;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;

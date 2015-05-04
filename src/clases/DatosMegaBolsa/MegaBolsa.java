@@ -8,13 +8,15 @@ package clases.DatosMegaBolsa;
 import clases.Fecha;
 import clases.Tablas.DatoValor;
 import clases.Tablas.FicheroTratado;
-import clases.Tablas.PatronesCampos;
+import clases.Tablas.PatronCampo;
+import clases.Secundarias.PatronesCampos;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -28,12 +30,12 @@ public class MegaBolsa extends Thread{
     Connection con;
     
     //Atributos
-    private PatronesCampos patronesCampos;
-    private String         direccionWEB;
-    private String         comodinWEB;
-    private String         extensionWEB;
-    private String         categoria;
-    private int            diaEnProceso = 0;
+    private List <PatronCampo> patronesCampos;
+    private String direccionWEB;
+    private String comodinWEB;
+    private String extensionWEB;
+    private String categoria;
+    private int    diaEnProceso = 0;
     
     //Constantes
     public final int NUM_DIAS = 300;
@@ -44,7 +46,8 @@ public class MegaBolsa extends Thread{
         this.con = con;
 
         //Obtenemos los Patrones para Recuperar Ordenadamente los Campos de la Web
-        patronesCampos = new PatronesCampos(con);
+        PatronesCampos auxPatronesCampos = new PatronesCampos(con);
+        patronesCampos = auxPatronesCampos.getPatronesCampos();
         
         //Obtenemos el Resto de Datos para Generar la URL
         this.direccionWEB = direccionWEB;
@@ -98,8 +101,8 @@ public class MegaBolsa extends Thread{
             fichTratado.insertFicheroBBDD(con);
             System.out.println("El Fichero Ha Sido Tratado Con Exito: "+direccionInformacion);
         }
-        else
-            System.out.println("El Fichero Ya Fue Tratado: "+direccionInformacion);
+        //else
+        //    System.out.println("El Fichero Ya Fue Tratado: "+direccionInformacion);
     }
     
     //Actualiza los Datos de los Valores el Numero de dias Indicado en NUM_DIAS
